@@ -1,0 +1,18 @@
+{
+    "headers": [
+      {
+        "source": "/fonts/(.*)",
+        "headers": [
+          {
+            "key": "Access-Control-Allow-Origin",
+            "value": "*"
+          },
+          {
+            "key": "Content-Type",
+            "value": "font/ttf"
+          }
+        ]
+      }
+    ]
+  }
+  
