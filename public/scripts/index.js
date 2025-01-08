@@ -63,27 +63,55 @@ if (signinForm) {
 const error = document.getElementById("error");
 const tag = document.getElementById('post-tag');
 const heading = document.getElementById('post-heading');
-const author = document.getElementById('post-autho');
-const body = document.getAnimations('post-body')
+const author = document.getElementById('post-author');
+const body = document.getElementById('post-body')
+
+
+tag.addEventListener('input', (e) => {
+  tag.textContent = e.target.value
+  console.log(tag.textContent)
+  }
+  )
+
+heading.addEventListener('input', (e) => {
+  heading.textContent = e.target.value
+  console.log(heading.textContent)
+  }
+  )
+
+author.addEventListener('input', (e) => {
+  author.textContent = e.target.value
+  console.log(author.textContent)
+  }
+  )
+
+body.addEventListener('input', (e) => {
+  body.textContent = e.target.value
+  console.log(body.textContent)
+  }
+  )
+
 
 const handleSubmit = async () => {
+  console.log(tag.value)
   error.textContent = ''
+  
 
 
-  try {
-    const tagArray = tags.split(",").map((tag) => tag.trim());
-    const { error } = await supabase.from("blogs").insert({
-      title,
-      tags: tagArray,
-      body,
-    });
-    if (error) throw error;
+  // try {
+  //   const tagArray = tags.split(",").map((tag) => tag.trim());
+  //   const { error } = await supabase.from("blogs").insert({
+  //     title,
+  //     tags: tagArray,
+  //     body,
+  //   });
+  //   if (error) throw error;
 
-    alert("Blog posted successfully!");
-    window.location.href = "/";
-  } catch (err) {
-    error.textContent = err.message
-  }
+  //   alert("Blog posted successfully!");
+  //   window.location.href = "/";
+  // } catch (err) {
+  //   error.textContent = err.message
+  // }
 };
 
 document.getElementById("post-form").addEventListener("submit", handleSubmit);
