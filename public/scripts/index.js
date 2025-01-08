@@ -1,4 +1,9 @@
+import { INVALID } from "astro:schema";
 import { supabase } from "./supabaseClient.js";
+
+
+// SIGN-UP 
+
 
 const signupForm = document.getElementById("signup-form");
 console.log(signupForm);
@@ -33,6 +38,11 @@ if (signupForm) {
   });
 }
 
+
+
+// SIGN-IN 
+
+
 const signinForm = document.getElementById("signin-form");
 
 if (signinForm) {
@@ -60,16 +70,19 @@ if (signinForm) {
   console.error("Signin form not found!");
 }
 
+
+// POST BLOG
+
 const error = document.getElementById("error");
-const tag = document.getElementById('post-tag');
+const tags = document.getElementById('post-tag');
 const heading = document.getElementById('post-heading');
 const author = document.getElementById('post-author');
 const body = document.getElementById('post-body')
 
 
-tag.addEventListener('input', (e) => {
-  tag.textContent = e.target.value
-  console.log(tag.textContent)
+tags.addEventListener('input', (e) => {
+  tags.textContent = e.target.value
+  console.log(tags.textContent)
   }
   )
 
@@ -92,26 +105,26 @@ body.addEventListener('input', (e) => {
   )
 
 
-const handleSubmit = async () => {
-  console.log(tag.value)
+const handleSubmit = async (e) => {
+  e.preventDefault()
   error.textContent = ''
   
 
 
-  // try {
-  //   const tagArray = tags.split(",").map((tag) => tag.trim());
-  //   const { error } = await supabase.from("blogs").insert({
-  //     title,
-  //     tags: tagArray,
-  //     body,
-  //   });
-  //   if (error) throw error;
+  try {
+    const tagArray = tags.split(",").map((tag) => tag.trim());
+    const { error } = await supabase.from("blogs").insert({
+      title,
+      tags: tagArray,
+      body,
+    });
+    if (error) throw error;
 
-  //   alert("Blog posted successfully!");
-  //   window.location.href = "/";
-  // } catch (err) {
-  //   error.textContent = err.message
-  // }
+    alert("Blog posted successfully!");
+    window.location.href = "/";
+  } catch (err) {
+    error.textContent = err.message
+  }
 };
 
 document.getElementById("post-form").addEventListener("submit", handleSubmit);
