@@ -1,14 +1,13 @@
-import { INVALID } from "astro:schema";
-import { supabase } from "./supabaseClient.js";
+// import { INVALID } from "astro:schema";
 
+import { supabase } from "./supabaseClient";
 
-// SIGN-UP 
-
+// SIGN-UP
 
 const signupForm = document.getElementById("signup-form");
-console.log(signupForm);
 
 if (signupForm) {
+  console.log(signupForm);
   signupForm.addEventListener("submit", async (e) => {
     e.preventDefault();
     console.log("submit button clicked");
@@ -38,14 +37,12 @@ if (signupForm) {
   });
 }
 
-
-
-// SIGN-IN 
-
+// SIGN-IN
 
 const signinForm = document.getElementById("signin-form");
 
 if (signinForm) {
+  console.log(signinForm);
   signinForm.addEventListener("submit", async (e) => {
     e.preventDefault();
 
@@ -59,72 +56,77 @@ if (signinForm) {
 
     console.log(data);
 
+    // Wait for session persistence
+    const { data: session } = await supabase.auth.getSession();
+    console.log("Session after sign-in:", session);
+
+    if (session?.session) {
+      alert("Signin successful!");
+      window.location.href = "/blog";
+    } else {
+      console.error("Failed to establish session after sign-in.");
+    }
+
     if (error) {
       alert(`Error: ${error.message}`);
     } else {
       alert("Signin successful!");
-      window.location.href = "/blog";
+      // window.location.href = "/blog";
     }
   });
 } else {
   console.error("Signin form not found!");
 }
 
-
 // POST BLOG
 
+const postForm = document.getElementById("post-form");
 const error = document.getElementById("error");
-const tags = document.getElementById('post-tag');
-const heading = document.getElementById('post-heading');
-const author = document.getElementById('post-author');
-const body = document.getElementById('post-body')
+const tags = document.getElementById("post-tag");
+const heading = document.getElementById("post-heading");
+const author = document.getElementById("post-author");
+const body = document.getElementById("post-body");
 
+if (postForm) {
+  tags.addEventListener("input", (e) => {
+    tags.textContent = e.target.value;
+    console.log(tags.textContent);
+  });
 
-tags.addEventListener('input', (e) => {
-  tags.textContent = e.target.value
-  console.log(tags.textContent)
-  }
-  )
+  heading.addEventListener("input", (e) => {
+    heading.textContent = e.target.value;
+    console.log(heading.textContent);
+  });
 
-heading.addEventListener('input', (e) => {
-  heading.textContent = e.target.value
-  console.log(heading.textContent)
-  }
-  )
+  author.addEventListener("input", (e) => {
+    author.textContent = e.target.value;
+    console.log(author.textContent);
+  });
 
-author.addEventListener('input', (e) => {
-  author.textContent = e.target.value
-  console.log(author.textContent)
-  }
-  )
+  body.addEventListener("input", (e) => {
+    body.textContent = e.target.value;
+    console.log(body.textContent);
+  });
 
-body.addEventListener('input', (e) => {
-  body.textContent = e.target.value
-  console.log(body.textContent)
-  }
-  )
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    error.textContent = "";
 
+    try {
+      const tagArray = tags.split(",").map((tag) => tag.trim());
+      const { error } = await supabase.from("blogs").insert({
+        title,
+        tags: tagArray,
+        body,
+      });
+      if (error) throw error;
 
-const handleSubmit = async (e) => {
-  e.preventDefault()
-  error.textContent = ''
-  
+      alert("Blog posted successfully!");
+      window.location.href = "/blog";
+    } catch (err) {
+      error.textContent = err.message;
+    }
+  };
 
-
-  try {
-    const tagArray = tags.split(",").map((tag) => tag.trim());
-    const { error } = await supabase.from("blogs").insert({
-      title,
-      tags: tagArray,
-      body,
-    });
-    if (error) throw error;
-
-    alert("Blog posted successfully!");
-    window.location.href = "/";
-  } catch (err) {
-    error.textContent = err.message
-  }
-};
-
-document.getElementById("post-form").addEventListener("submit", handleSubmit);
+  document.getElementById("post-form").addEventListener("submit", handleSubmit);
+}
