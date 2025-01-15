@@ -1,6 +1,4 @@
 ---
-// import { fetchBlogs } from "../../public/scripts/blog";
-
 type BlogProps = {
   tags: string[];
   created_at: string;
@@ -10,7 +8,7 @@ type BlogProps = {
   author: string;
 };
 
-// const blogs = await fetchBlogs();
+
 ---
 
 <html lang="en">
@@ -46,7 +44,6 @@ type BlogProps = {
     </div>
     <ul class="" id="blogs"></ul>
 
-    <!-- The fetchBlogs function imported at the frontmatter relies on the Supabase client, which is designed to run in the browser. However, Astro's server-side rendering environment cannot handle browser-specific libraries like supabase-js out of the box. -->
     <!-- {
       blogs && blogs?.length > 0 ? (
         <ul>

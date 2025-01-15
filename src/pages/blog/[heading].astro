@@ -1,0 +1,202 @@
+---
+import { marked } from "marked";
+import { JSDOM } from "jsdom";
+import DOMPurify from "dompurify";
+import { supabase } from "../../../lib/supabaseClient";
+
+const dom = new JSDOM("");
+const window = dom.window;
+const purify = DOMPurify(window);
+
+export async function getStaticPaths() {
+  try {
+    const { data, error } = await supabase.from("blogs").select("*");
+    if (error) {
+      console.error("Error fetching blogs:", error.message);
+      return { paths: [] };
+    }
+    console.log("Data fetched in getStaticPaths:", data);
+    return (
+      data?.map((post) => ({
+        params: { heading: post.heading },
+      })) || []
+    );
+  } catch (err: any) {
+    console.error("Error fetching blog paths:", err.message);
+    return { paths: [] };
+  }
+}
+
+async function getBlogData(heading: string) {
+  const { data, error, count } = await supabase
+    .from("blogs")
+    .select("*", { count: "exact" })
+    .eq("heading", heading)
+    .single();
+  if (error) {
+    console.error(error);
+    return null;
+  }
+
+  if (!data) {
+    console.error("No blog found for the given heading.");
+    return null;
+  }
+
+  if (count && count > 1) {
+    console.warn("Multiple rows returned, expected one.");
+    return data[0];
+  }
+
+  return data;
+}
+
+// Get the heading from the URL params
+const { heading } = Astro.params;
+
+if (heading === "favicon.ico") {
+  throw new Error("Invalid blog heading: favicon.ico");
+}
+
+// Fetch blog data for the given heading
+const blog = await getBlogData(heading);
+const rawHtml = await marked(blog?.body || "");
+const sanitizedHtml = purify.sanitize(rawHtml);
+---
+
+<html>
+  <head>
+    <title>Blog page</title>
+  </head>
+  <body>
+    {
+      blog ? (
+        <div class="">
+          <nav class="flex justify-between p-8 border-b-2 border-grey">
+            <a href="/blog">
+              {" "}
+              <img src="/Logo.png" alt="logo" class="w-8 h-8" />
+            </a>
+            <div class="flex gap-5">
+              <button class="font-CentraNo2-Book">
+                <a href="/newpost">New Post</a>
+              </button>
+              <button class="font-CentraNo2-Book">
+                <a href="/blog">Blog Posts</a>
+              </button>
+              <button class="font-CentraNo2-Book">
+                <a href="/account">My Account</a>
+              </button>
+            </div>
+          </nav>
+          <article id={blog?.id} class="article prose">
+            <header class="w-[80%] mt-20 items-center flex justify-between mx-auto">
+              <div>
+                <div class="flex gap-1">
+                  {blog?.tags?.length > 0 &&
+                    blog.tags.map((tag: string) => (
+                      <p class="font-CentraNo2-Light text-[14px]">{tag}</p>
+                    ))}
+                </div>
+
+                <div>
+                  <p
+                    id="blog-heading"
+                    class="font-RecklessNeueThin text-5xl mt-10"
+                  >
+                    {blog?.heading}
+                  </p>
+                  <div class="flex gap-2 mt-2">
+                    <p class="font-CentraNo2-Light text-[12px] mt-4">
+                      BY {blog?.author}
+                    </p>
+                    <p class="font-CentraNo2-Light text-[12px] mt-4">|</p>
+                    <p class="font-CentraNo2-Light text-[12px] mt-4">
+                      {new Date(blog?.created_at).toLocaleDateString()}
+                    </p>
+                  </div>
+                </div>
+
+                {/* to get the blog's userId property on the js file,  */}
+                <input type="hidden" id="blogUserId" value={blog?.userId} />
+                {/* show when blog's userId property matches the user's id property */}
+                <div id="action_btns" class="mt-10 gap-3 items-center hidden">
+                  <button class="flex gap-2" id="edit-blog">
+                    <img
+                      src="../../../public/edit.svg"
+                      alt="edit icon"
+                      class="h-5 w-5"
+                    />
+                    <p class="text-black underline font-CentraNo2-Book hover:text-blue-600 focus:outline-none">
+                      Edit this post
+                    </p>
+                  </button>
+
+                  <p class="text-slate-400">|</p>
+
+                  <button class="flex gap-2 items-center" id="delete-blog">
+                    <img
+                      src="../../../public/bin.svg"
+                      alt="edit icon"
+                      class="h-4 w-4"
+                    />
+                    <p class="text-black underline font-CentraNo2-Book hover:text-blue-600 focus:outline-none">
+                      Delete this post
+                    </p>
+                  </button>
+                </div>
+              </div>
+
+              <div>
+                <img
+                  src={blog?.hero_image}
+                  alt={blog?.heading}
+                  class="w-[80%] ml-auto"
+                />
+              </div>
+            </header>
+            <div class="border-t-2 border-grey mt-20" />
+            <div class="w-[50%] pt-8 items-center flex flex-col justify-center mx-auto">
+              {sanitizedHtml ? (
+                <p
+                  class="font-CentraNo2-Light text-justify"
+                  set:html={sanitizedHtml}
+                />
+              ) : (
+                <p class="font-CentraNo2-Light text-justify">
+                  No content available
+                </p>
+              )}
+            </div>
+            <div class="border-t-2 border-grey mt-10" />
+            <div class="w-[50%] mx-auto mt-10 pb-40">
+              <p class="font-RecklessNeueRegular text-2xl">Comments</p>
+
+              <div class="pb-4 border-b-1 border-grey" id="commentsContainer" />
+            </div>
+          </article>
+          <form id="comment-form" class="mt-10">
+            <textarea
+              id="commentContent"
+              name=""
+              id=""
+              class="w-full p-3 bg-slate-100 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 text-gray-800"
+              placeholder="Write comment here"
+              required
+            />
+            <button
+              type="submit"
+              class="w-[30%] bg-black h-10 text-white text-center rounded-full font-CentraNo2-Book mt-4"
+            >
+              Submit
+            </button>
+          </form>
+        </div>
+      ) : (
+        <div class="">No content</div>
+      )
+    }
+
+    <script type="module" src="/scripts/blog.js" is:inline></script>
+  </body>
+</html>

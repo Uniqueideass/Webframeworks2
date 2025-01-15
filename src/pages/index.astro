@@ -1,51 +1,75 @@
 ---
-// Add any server-side logic here if needed
+
 ---
-<!DOCTYPE html>
+
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Astro Page</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign In | My Astro Page</title>
 
-	<link rel="stylesheet" href="/styles/global.css">
-   
-    
-</head>
+    <link rel="stylesheet" href="/styles/global.css" />
+  </head>
 
-<body>
+  <body>
+    <div
+      class="max-w-[500px] mx-auto flex flex-col items-center h-screen justify-center"
+    >
+      <div>
+        <p class="text-3xl text-center font-CentraNo2-Medium">
+          Sign in to your account
+        </p>
+        <p class="text-center font-CentraNo2-Book">
+          Get access to all of our articles when you log in to your account
+        </p>
+      </div>
 
-<div class="max-w-[500px] mx-auto flex flex-col items-center h-screen justify-center">
+      <div class="w-full border border-grey my-10"></div>
 
-    <div>
-        <p class="text-3xl text-center font-CentraNo2-Medium ">Sign in to your account</p>
-        <p class="text-center font-CentraNo2-Book">Get access to all of our articles when you log in to your account</p>
-    </div>
-    
-    <div class="w-full border border-grey my-10"></div>
-
-    <!-- <button class="flex items-center justify-center gap-3  h-10 w-full rounded-md bg-blue-600 p-5 my-10 mx-auto">
+      <!-- <button class="flex items-center justify-center gap-3  h-10 w-full rounded-md bg-blue-600 p-5 my-10 mx-auto">
             <img src="google.svg" alt="google sign in" class="w-6 h-6">
             <p class="text-white">Sign in with google</p>
     </button> -->
-    
-    <!-- <p class="text-center">or</p> -->
 
-    <form action="" id="signin-form" class="flex flex-col gap-3 mt-5 w-full">
-        <input type="email" id="signin-email" placeholder="Email" class="w-full border border-black h-10 px-3 rounded-md font-CentraNo2-Book" required/>
-        <input type="password" id="signin-password" placeholder="Password" class="w-full border border-black h-10 px-3 rounded-md font-CentraNo2-Book" required/>
-        <button type="submit" class="w-full bg-yellow-400 h-10 text-center rounded-md font-CentraNo2-Book mt-3"> <a href="">Continue</a> </button>
-    </form>
+      <!-- <p class="text-center">or</p> -->
 
-    <p class="font-CentraNo2-Light mt-5 text-center text-[14px]">By continuing, you have read and agreed to our Terms and Conditions and Privacy Statement</p>
+      <form id="signin-form" class="flex flex-col gap-3 mt-5 w-full">
+        <input
+          type="email"
+          id="signin-email"
+          placeholder="Email"
+          class="w-full border border-black h-10 px-3 rounded-md font-CentraNo2-Book"
+          required
+        />
+        <input
+          type="password"
+          id="signin-password"
+          placeholder="Password"
+          class="w-full border border-black h-10 px-3 rounded-md font-CentraNo2-Book"
+          required
+        />
+        <button
+          type="submit"
+          class="w-full bg-yellow-400 h-10 text-center rounded-md font-CentraNo2-Book mt-3"
+        >
+          Continue
+        </button>
+      </form>
 
-    <div class="flex gap-2 mt-12">
-        <p class="font-CentraNo2-Light ">Dont have an account?</p>
-        <button class="font-CentraNo2-Book text-blue-600"><a href="/signup">Create one now</a></button>
+      <p class="font-CentraNo2-Light mt-5 text-center text-[14px]">
+        By continuing, you have read and agreed to our Terms and Conditions and
+        Privacy Statement
+      </p>
+
+      <div class="flex gap-2 mt-12">
+        <p class="font-CentraNo2-Light">Dont have an account?</p>
+        <button class="font-CentraNo2-Book text-blue-600"
+          ><a href="/signup">Create one now</a></button
+        >
+      </div>
     </div>
-</div>
 
-<script type="module" src="/scripts/index.js" is:inline></script>
-</body>
+    <script type="module" src="/scripts/index.js" is:inline></script>
+  </body>
 </html>
-

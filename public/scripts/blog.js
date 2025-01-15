@@ -1,10 +1,28 @@
-import { supabase } from "./supabaseClient.js";
+import { supabase } from "../../lib/supabaseClient";
+
+export async function getUser() {
+  try {
+    const { data, error } = await supabase.auth.getUser();
+
+    if (error) {
+      console.error("Error retrieving user session:", error.message);
+      return null;
+    }
+    return data.user;
+  } catch (err) {
+    console.error("Error retrieving session:", err.message);
+    return null;
+  }
+}
 
 const postForm = document.getElementById("post-form");
 
 if (postForm) {
   postForm.addEventListener("submit", async (e) => {
     e.preventDefault();
+
+    const user = await getUser();
+    const userId = user?.id;
 
     const tags = document
       .getElementById("post-tag")
@@ -17,20 +35,22 @@ if (postForm) {
 
     const { data, error } = await supabase
       .from("blogs")
-      .insert([{ heading, tags, hero_image: heroImage, author, body }]);
+      .insert([{ heading, tags, hero_image: heroImage, author, body, userId }]);
 
     if (error) {
       alert(`Error: ${error.message}`);
     } else {
       alert("New post added successfully!");
       window.location.href = "/blog";
+      postForm.reset();
     }
   });
 }
 
 // FETCH BLOG
-async function fetchBlogs() {
+export async function fetchBlogs() {
   console.log("Fetching blogs...");
+  getUser();
   try {
     const { data, error } = await supabase
       .from("blogs")
@@ -39,6 +59,7 @@ async function fetchBlogs() {
 
     if (error) throw error;
     console.log(data);
+
     return data;
   } catch (err) {
     console.error("Error fetching blogs:", err.message);
@@ -46,20 +67,21 @@ async function fetchBlogs() {
   }
 }
 
+// DISPLAY ON UI 
 async function renderBlogs() {
   const blogsContainer = document.getElementById("blogs");
   const blogs = await fetchBlogs();
+  if (blogsContainer) {
+    if (blogs.length === 0) {
+      blogsContainer.innerHTML =
+        "<p class='text-center mt-6'>No blog posts found.</p>";
+      return;
+    }
 
-  if (blogs.length === 0) {
-    blogsContainer.innerHTML =
-      "<p class='text-center mt-6'>No blog posts found.</p>";
-    return;
-  }
-
-  blogs.forEach((blog) => {
-    const blogItem = document.createElement("li");
-    blogItem.className = "flex mb-10";
-    blogItem.innerHTML = `
+    blogs.forEach((blog) => {
+      const blogItem = document.createElement("li");
+      blogItem.className = "flex mb-10";
+      blogItem.innerHTML = `
       <div class="w-[50%]">
         <img
           src="${blog.hero_image}"
@@ -90,9 +112,211 @@ async function renderBlogs() {
         </div>
       </div>
     `;
-    blogsContainer.appendChild(blogItem);
-  });
+      blogsContainer.appendChild(blogItem);
+    });
+  }
 }
 
 // Fetch and render blogs on page load
 window.addEventListener("load", renderBlogs);
+
+// COMMENTS
+
+const commentsContainer = document.getElementById("commentsContainer");
+const user = await getUser();
+const fullName = user?.user_metadata?.full_name || "Anonymous";
+
+
+if (commentsContainer) {
+  const blogHeading = document.getElementById("blog-heading").textContent;
+  const blogId = document.querySelector(".article").getAttribute("id");
+ 
+  
+  async function checkUserPermissions() {
+    const user = await getUser();
+    const actionBtns = document.getElementById("action_btns");
+    const blogUserId = document.getElementById("blogUserId").value;
+
+    if (blogUserId === user.id) {
+      actionBtns.classList.remove("hidden");
+      actionBtns.classList.add("flex");
+    }
+  }
+
+  async function fetchComments(id) {
+    const { data: comments, error } = await supabase
+      .from("comments")
+      .select("*")
+      .eq("blog_id", id)
+      .order("created_at", { ascending: false });
+
+    if (error) {
+      console.error("Error fetching comments:", error.message);
+      return;
+    }
+
+    console.log(comments);
+
+    commentsContainer.innerHTML = "";
+
+    if (comments.length === 0) {
+      commentsContainer.innerHTML =
+        "<p class='text-center mt-6'>No comments.</p>";
+      return;
+    }
+
+    comments.forEach((comment) => {
+      const commentElement = document.createElement("div");
+      commentElement.classList.add("comment");
+
+      const avatar = comment.user_avatar
+        ? `<img src="${comment.user_avatar}" alt="avatar" class="w-10 h-10 rounded-full"/>`
+        : `<div class="w-10 h-10 bg-gray-300 text-gray-700 border border-black flex items-center justify-center rounded-full">
+         ${comment.user_name ? comment.user_name[0].toUpperCase() : "A"}
+       </div>`;
+
+      commentElement.innerHTML = `
+      <div class="flex gap-2 items-center mt-5">
+      ${avatar}
+       <p class="font-RecklessNeueRegular text-[18px]">${comment.user_name}</p>
+        <p class="font-RecklessNeueThin">${new Date(
+          comment.created_at
+        ).toLocaleString()}</p>
+      </div>
+      <p class="font-CentraNo2-Light px-12 w-[90%]">${comment.content}</p>
+    `;
+      commentsContainer.appendChild(commentElement);
+    });
+  }
+
+  if (blogId) {
+    fetchComments(blogId);
+    checkUserPermissions();
+  }
+
+  // ------------
+
+  const commentForm = document.getElementById("comment-form");
+  
+  if (commentForm) {
+    
+    commentForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      
+      const commentContent = document.getElementById("commentContent").value;
+
+      if (!commentContent.trim()) {
+        alert("Comment cannot be empty.");
+        return;
+      }
+      
+      // const userAvatar = document.getElementById("userAvatar").files[0];
+
+      let avatarUrl = null;
+
+      // If the user uploaded an avatar, upload it to Supabase storage
+      // if (userAvatar) {
+      //   const avatarPath = `avatars/${Date.now()}-${userAvatar.name}`;
+      //   const { data, error: uploadError } = await supabase.storage
+      //     .from("avatars")
+      //     .upload(avatarPath, userAvatar);
+
+      //   if (uploadError) {
+      //     console.error("Error uploading avatar:", uploadError.message);
+      //     return;
+      //   }
+
+      //   avatarUrl = supabase.storage
+      //     .from("avatars")
+      //     .getPublicUrl(avatarPath).publicURL;
+      // }
+      console.log(commentContent)
+
+      const { error } = await supabase.from("comments").insert([
+        {
+          blog_id: blogId,
+          blog_heading: blogHeading,
+          user_name: fullName,
+          user_avatar: avatarUrl,
+          content: commentContent,
+        },
+      ]);
+
+      if (error) {
+        console.error("Error inserting comment:", error.message);
+      } else {
+        alert("Comment added successfully!");
+        commentForm.reset();
+        await fetchComments(blogId);
+      }
+    });
+  }
+}
+
+// ----------------------------
+
+// EDIT BLOG
+const editBtn = document.getElementById("edit-blog");
+
+if(editBtn){
+  const blogHeading = document.getElementById("blog-heading").textContent;
+
+  editBtn.addEventListener("click", () => {
+    window.location.href = `/editpost/${blogHeading.trim()}`;
+  });
+}
+
+const updateForm = document.getElementById("update-post-form");
+
+const fields = {
+  heading: document.getElementById("update-post-heading"),
+  body: document.getElementById("update-post-body"),
+  tags: document.getElementById("update-post-tag"),
+  hero_image: document.getElementById("update-post-image"),
+};
+
+if (updateForm) {
+  const updatedBlogId = document.getElementById("updatedBlogId").value;
+  updateForm.addEventListener("input", (e) => {
+    const { name, value } = e.target;
+    fields[name].value = value;
+  });
+
+  updateForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const { data, error } = await supabase
+      .from("blogs")
+      .update({
+        heading: fields.heading.value,
+        body: fields.body.value,
+        tags: fields.tags.value.split(",").map((tag) => tag.trim()),
+        hero_image: fields.hero_image.value,
+      })
+      .eq("id", updatedBlogId);
+
+    if (error) {
+      console.error(updatedBlogId);
+      console.error("Error updating blog:", error.message);
+    } else {
+      alert("Blog updated successfully!");
+      window.location.href = `/blog/${fields.heading.value}`;
+    }
+  });
+}
+
+// DELETE BLOG
+const deleteBtn = document.getElementById("delete-blog");
+
+deleteBtn?.addEventListener("click", async () => {
+  if (confirm("Are you sure you want to delete this blog?")) {
+    const { error } = await supabase.from("blogs").delete().eq("id", blogId);
+
+    if (error) {
+      console.error("Error deleting blog:", error.message);
+    } else {
+      alert("Blog deleted successfully!");
+      window.location.href = "/blog";
+    }
+  }
+});

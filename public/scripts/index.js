@@ -1,6 +1,4 @@
-// import { INVALID } from "astro:schema";
-
-import { supabase } from "./supabaseClient";
+import { supabase } from "../../lib/supabaseClient";
 
 // SIGN-UP
 
@@ -69,9 +67,6 @@ if (signinForm) {
 
     if (error) {
       alert(`Error: ${error.message}`);
-    } else {
-      alert("Signin successful!");
-      // window.location.href = "/blog";
     }
   });
 } else {
