@@ -121,41 +121,4 @@ if (document.getElementById("account")) {
     });
   }
 
-  const deleteAccountBtn = document.getElementById("delete-account-btn");
-
-  if (deleteAccountBtn) {
-    deleteAccountBtn.addEventListener("click", async (e) => {
-      e.preventDefault();
-
-      const confirmDelete = confirm(
-        "Are you sure you want to delete your account? This action cannot be undone."
-      );
-      if (!confirmDelete) return;
-
-      try {
-        const { data: user } = await supabase.auth.getUser();
-        // console.log(import.meta.env.SUPABASE_URL);
-
-        const response = await fetch("/api/deleteUser", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ userId: user.user.id }),
-        });
-
-        const result = await response.json();
-         console.log(result)
-
-        if (response.ok) {
-          alert("Account deleted successfully!");
-          window.location.href = "/";
-        } else {
-          const errorText = await response.text();
-          throw new Error(`Failed to delete account: ${errorText}`);
-        }
-      } catch (error) {
-        console.error("Error deleting account:", error.message);
-        alert(`Failed to delete account: ${error.message}`);
-      }
-    });
-  }
-}
+  
