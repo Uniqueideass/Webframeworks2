@@ -11,5 +11,12 @@ export default defineConfig({
   adapter: vercel(),
   vite: {
     envPrefix: "PUBLIC_",
+    // build: {
+    //   rollupOptions: {
+    //     input: {
+    //       lib: "lib/supabaseClient.js",
+    //     },
+    //   },
+    // },
   },
 });

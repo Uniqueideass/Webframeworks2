@@ -2,7 +2,7 @@
 import { marked } from "marked";
 import { JSDOM } from "jsdom";
 import DOMPurify from "dompurify";
-import { supabase } from "../../../public/scripts/supabaseClient";
+import { supabase } from "../../supabaseClient";
 
 const dom = new JSDOM("");
 const window = dom.window;
