@@ -121,4 +121,4 @@ if (document.getElementById("account")) {
     });
   }
 
-  
+}
