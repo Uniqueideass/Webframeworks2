@@ -1,4 +1,4 @@
-import { supabase } from "../../src/lib/supabaseClient";
+import { supabase } from "../lib/supabaseClient";
 
 export async function getUser() {
   try {
@@ -115,7 +115,7 @@ async function renderBlogs() {
           class="object-cover w-full h-full"
         />
       </div>
-      <div class="p-20  ${backgroundColor} ${textColor} w-[50%]">
+      <div class="p-20  ${backgroundColor} w-[50%]">
         <div class="flex gap-1">
           ${blog.tags
             .map(
