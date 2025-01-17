@@ -112,7 +112,7 @@ async function renderBlogs() {
         <img
           src="${blog.hero_image}"
           alt="Blog hero image"
-          class="object-cover w-full h-[350px]"
+          class="object-cover w-full h-full"
         />
       </div>
       <div class="p-20  ${backgroundColor} w-[50%]">
