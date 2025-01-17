@@ -1,0 +1,34 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Edit Blog Page</title><link rel="stylesheet" href="/styles/global.css"><link rel="stylesheet" href="/_astro/account.CE6kivbH.css"></head> <body> <nav class="flex justify-between p-8 border-b-2 border-grey"> <a href="/blog"><img src="../../../public/Logo.png" alt="potential logo" class="w-8 h-8"></a> <div class="flex gap-5"> <button class="font-CentraNo2-Book text-blue-600"> <a href="/newpost"> New Post</a></button> <button class="font-CentraNo2-Book"><a href="/blog">Blog Posts</a></button> <button class="font-CentraNo2-Book"> <a href="/account">My Account</a> </button> </div> </nav> <form id="update-post-form" class="max-w-[700px] mx-auto flex flex-col mt-20"> <div class="flex justify-between"> <p class="font-RecklessNeueRegular text-3xl">Update Post</p> <button type="submit" class="font-CentraNo2-Book bg-black text-white p-3 rounded-md">Publish Post</button> </div> <input type="hidden" id="updatedBlogId" value="27"> <p id="error"></p> <div class="border-2 border-grey rounded-md p-5 mt-5"> <label for="update-post-tag" class="font-CentraNo2-Book">
+Add Tags
+<input name="tags" id="update-post-tag" value="Problem Solving, Overcoming Challenges" class="w-full my-3 p-3 bg-slate-100 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 text-gray-800" placeholder="Use a comma to separate tags" required></label> <label for="update-post-heading" class="font-CentraNo2-Book">
+Add Heading
+<input name="heading" id="update-post-heading" class="w-full my-3 p-3 bg-slate-100 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 text-gray-800" placeholder="" value="Turning Creative Blocks into Breakthroughs" required></label> <label for="update-post-image" class="font-CentraNo2-Book">
+Add Hero Image
+<input name="hero_image" id="update-post-image" accept="image/*" class="w-full my-3 p-3 bg-slate-100 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 text-gray-800" placeholder="paste image url" value="https://mmcbxaqrhxfrbzzuefun.supabase.co/storage/v1/object/public/blog-images/pexels-pixabay-260024.jpg-1737128070639" required></label> <label for="post-body" class="font-CentraNo2-Book">
+Body Text
+<textarea name="body" id="update-post-body" class="w-full my-3 p-3 bg-slate-100 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 text-gray-800" placeholder="" required>## Turning Creative Blocks into Breakthroughs  
+
+Few things are as frustrating as staring at a blank page, canvas, or screen with no idea where to begin. Creative blocks are a natural part of the process, but they don’t have to derail your work. With the right mindset and tools, you can transform blocks into opportunities for innovation.
+
+### Understanding Creative Blocks  
+Creative blocks often stem from fear—fear of failure, judgment, or imperfection. They can also result from burnout, a lack of inspiration, or overthinking. Recognizing the root cause is the first step to overcoming it.
+
+### Proven Techniques for Breaking Through  
+1. **Change Your Environment**  
+   A new setting can stimulate fresh ideas. Try working in a café, park, or co-working space. Even rearranging your workspace can have a similar effect.
+
+2. **Experiment with Constraints**  
+   Limitations can be surprisingly liberating. Set boundaries like using only three colors in your artwork or writing a story in 500 words. Constraints force you to think creatively within defined parameters.
+
+3. **Use Prompts**  
+   Creative prompts provide a starting point when you’re stuck. Look online for prompts tailored to your medium or create your own challenges.
+
+4. **Collaborate with Others**  
+   Sometimes, sharing your work or brainstorming with a friend can spark new ideas. Collaboration introduces fresh perspectives that can reignite your passion.
+
+### Embracing Imperfection  
+Perfectionism often paralyzes creativity. Accept that your initial efforts may not be your best, but they’re necessary steps toward refinement. As author Anne Lamott says, “Almost all good writing begins with terrible first efforts.”
+
+### Conclusion  
+Creative blocks are not the enemy—they’re an invitation to grow. By experimenting with new approaches and embracing imperfection, you’ll find yourself not just overcoming obstacles but thriving because of them.
+</textarea> </label> </div> </form> <script type="module" src="/scripts/blog.js"></script> </body> </html>

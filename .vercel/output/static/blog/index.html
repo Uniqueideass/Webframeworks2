@@ -1,0 +1,49 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Blog Page</title><link rel="stylesheet" href="/styles/global.css"><link rel="stylesheet" href="/_astro/account.CE6kivbH.css"></head> <body> <nav class="flex justify-between p-8"> <img src="Logo.png" alt="potential logo" class="w-8 h-8"> <div class="flex gap-5"> <button class="font-CentraNo2-Book text-blue-600"><a href="/blog">Our Blog</a></button> <button class="font-CentraNo2-Book"> <a href="/newpost">Add New Post</a></button> <button class="font-CentraNo2-Book"> <a href="/account">My Account</a> </button> </div> </nav> <div class="w-full h-[32px] bg-yellow-200 flex justify-center items-center"> <h1 class="text-xl font-RecklessNeueRegular text-center">Our blog</h1> </div> <div> <div class="mt-20 mb-10 w-full flex flex-col justify-center items-center"> <h1 class="font-RecklessNeueMediumItalic text-5xl"> <span class="font-RecklessNeueThin"> The</span> Echoes & Insights <span class="font-RecklessNeueThin">Journal</span> </h1> <p class="font-CentraNo2-Light mt-3 w-[50%] text-center text-[18px]">
+Echoes and Insights is a space for curious minds and creative souls to
+          explore ideas that resonate beyond the surface. Welcome to our blog
+</p> </div> <div class="border-[0.2px] border-zinc-300 mb-10 w-[50%] mx-auto"></div> </div> <ul class="w-[90%] mx-auto" id="blogs"></ul> <!-- {
+      blogs && blogs?.length > 0 ? (
+        <ul>
+          {blogs.map((blog: BlogProps, index: number) => (
+            <li class="flex">
+              <div class="w-[50%]">
+                <img
+                  src={blog?.hero_image}
+                  alt="image of nature"
+                  class="object-cover w-full h-full"
+                />
+              </div>
+
+              <div class="p-20 bg-[#FAF8F1] w-[50%]">
+                <div class="flex gap-1">
+                  {blog?.tags?.map((tag, index) => (
+                    <p class="bg-black text-white rounded-2xl px-5 py-1 flex justify-center font-CentraNo2-Light text-[12px]">
+                      {tag}
+                    </p>
+                  ))}
+                </div>
+
+                <div class="mt-20 w-[70%]">
+                  <p class="font-RecklessNeueThin text-5xl">{blog?.heading}</p>
+                  <p class="font-CentraNo2-Light text-[12px] mt-4">
+                    {blog?.created_at}
+                  </p>
+                </div>
+
+                <div class="mt-12 w-[70%]">
+                  <p class="font-CentraNo2-Light">
+                    {blog?.body.substring(0, 100)}…
+                  </p>
+                  <button class="font-CentraNo2-Book mt-2">
+                    {" "}
+                    <a href={`/blog/${blog.heading}`}>Read More</a>{" "}
+                  </button>
+                </div>
+              </div>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p class="text-center mt-6">No blog posts found.</p>
+      )
+    } --> <script type="module" src="/scripts/blog.js"></script> </body> </html>
