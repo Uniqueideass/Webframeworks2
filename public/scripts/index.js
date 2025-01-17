@@ -1,4 +1,4 @@
-import { supabase } from "../../src/supabaseClient";
+import { supabase } from "../../src/scripts/supabaseClient";
 
 
 // SIGN-UP
