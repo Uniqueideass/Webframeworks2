@@ -5,7 +5,6 @@ import { supabase } from "../../lib/supabaseClient";
 const signupForm = document.getElementById("signup-form");
 
 if (signupForm) {
-  console.log(signupForm);
   signupForm.addEventListener("submit", async (e) => {
     e.preventDefault();
     console.log("submit button clicked");
@@ -40,7 +39,6 @@ if (signupForm) {
 const signinForm = document.getElementById("signin-form");
 
 if (signinForm) {
-  console.log(signinForm);
   signinForm.addEventListener("submit", async (e) => {
     e.preventDefault();
 
@@ -54,74 +52,110 @@ if (signinForm) {
 
     console.log(data);
 
-    // Wait for session persistence
-    const { data: session } = await supabase.auth.getSession();
-    console.log("Session after sign-in:", session);
-
-    if (session?.session) {
-      alert("Signin successful!");
-      window.location.href = "/blog";
-    } else {
-      console.error("Failed to establish session after sign-in.");
-    }
-
     if (error) {
       alert(`Error: ${error.message}`);
+    } else {
+      alert("Signin successful!");
+      window.location.href = "/blog";
     }
   });
-} else {
-  console.error("Signin form not found!");
 }
 
-// POST BLOG
+// ---------------------------
 
-const postForm = document.getElementById("post-form");
-const error = document.getElementById("error");
-const tags = document.getElementById("post-tag");
-const heading = document.getElementById("post-heading");
-const author = document.getElementById("post-author");
-const body = document.getElementById("post-body");
+// ACCOUNT PAGE
 
-if (postForm) {
-  tags.addEventListener("input", (e) => {
-    tags.textContent = e.target.value;
-    console.log(tags.textContent);
-  });
+if (document.getElementById("account")) {
+  const nameInput = document.getElementById("fullname");
+  const saveBtn = document.getElementById("save-btn");
 
-  heading.addEventListener("input", (e) => {
-    heading.textContent = e.target.value;
-    console.log(heading.textContent);
-  });
+  window.addEventListener("load", async () => {
+    const { data, error } = await supabase.auth.getUser();
 
-  author.addEventListener("input", (e) => {
-    author.textContent = e.target.value;
-    console.log(author.textContent);
-  });
-
-  body.addEventListener("input", (e) => {
-    body.textContent = e.target.value;
-    console.log(body.textContent);
-  });
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    error.textContent = "";
-
-    try {
-      const tagArray = tags.split(",").map((tag) => tag.trim());
-      const { error } = await supabase.from("blogs").insert({
-        title,
-        tags: tagArray,
-        body,
-      });
-      if (error) throw error;
-
-      alert("Blog posted successfully!");
-      window.location.href = "/blog";
-    } catch (err) {
-      error.textContent = err.message;
+    if (error) {
+      console.error("Error retrieving user session:", error.message);
+      return null;
     }
-  };
+    const fullName = data?.user?.user_metadata?.full_name || null;
 
-  document.getElementById("post-form").addEventListener("submit", handleSubmit);
+    if (fullName) {
+      nameInput.value = fullName;
+    }
+  });
+
+  if (saveBtn) {
+    saveBtn.addEventListener("click", async (e) => {
+      e.preventDefault();
+
+      const password = document.getElementById("update-password").value;
+
+      if (password !== "" || nameInput.value !== "") {
+        const { error: updateError } = await supabase.auth.updateUser({
+          password: password || undefined,
+          data: { full_name: nameInput.value.trim() || undefined },
+        });
+
+        if (updateError) {
+          alert(`Error updating user details: ${updateError.message}`);
+        } else {
+          alert("User details updated successfully!");
+        }
+      } else {
+        alert("Provide at least one field to update.");
+      }
+    });
+  }
+
+  const signOutButton = document.getElementById("sign-out-btn");
+
+  if (signOutButton) {
+    signOutButton.addEventListener("click", async () => {
+      const { error } = await supabase.auth.signOut();
+
+      if (error) {
+        alert(`Error: ${error.message}`);
+      } else {
+        alert("Sign out successful");
+        window.location.href = "/";
+      }
+    });
+  }
+
+  const deleteAccountBtn = document.getElementById("delete-account-btn");
+
+  if (deleteAccountBtn) {
+    deleteAccountBtn.addEventListener("click", async (e) => {
+      e.preventDefault();
+
+      const confirmDelete = confirm(
+        "Are you sure you want to delete your account? This action cannot be undone."
+      );
+      if (!confirmDelete) return;
+
+      try {
+        const { data: user } = await supabase.auth.getUser();
+        // console.log(import.meta.env.SUPABASE_URL);
+
+        const response = await fetch("/api/deleteUser", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ userId: user.user.id }),
+        });
+
+        const result = await response.json();
+         console.log(result)
+
+        if (response.ok) {
+          alert("Account deleted successfully!");
+          window.location.href = "/";
+        } else {
+          const errorText = await response.text();
+          throw new Error(`Failed to delete account: ${errorText}`);
+        }
+      } catch (error) {
+        console.error("Error deleting account:", error.message);
+        alert(`Failed to delete account: ${error.message}`);
+      }
+    });
+  }
 }

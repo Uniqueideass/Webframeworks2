@@ -7,7 +7,7 @@ import vercel from "@astrojs/vercel";
 // https://astro.build/config
 export default defineConfig({
   integrations: [tailwind()],
-  output: "static",
+  output: 'server',
   adapter: vercel(),
   vite: {
     envPrefix: "PUBLIC_",

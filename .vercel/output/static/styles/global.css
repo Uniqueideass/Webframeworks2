@@ -1,0 +1,181 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base{ 
+  @font-face {
+    font-family: 'RecklessNeue Bold';
+    src: url('/fonts/Reckless/RecklessNeue-Bold.ttf') format('truetype');
+    font-weight: 700;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: 'RecklessNeue Medium';
+    src: url('/fonts/Reckless/RecklessNeue-Medium.ttf') format('truetype');
+    font-weight: 500;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: 'RecklessNeue Medium Italic';
+    src: url('/fonts/Reckless/RecklessNeue-MediumItalic.ttf') format('truetype');
+    font-weight: 500;
+    font-style: italic;
+  }
+
+  @font-face {
+    font-family: 'RecklessNeue Regular';
+    src: url('/fonts/Reckless/RecklessNeue-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: 'RecklessNeue Regular Italic';
+    src: url('/fonts/Reckless/RecklessNeue-NormalItalic.ttf') format('truetype');
+    font-weight: 400;
+    font-style: italic;
+  }
+
+  @font-face {
+    font-family: 'RecklessNeue Semi Bold';
+    src: url('/fonts/Reckless/RecklessNeue-SemiBold.ttf') format('truetype');
+    font-weight: 600;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: 'RecklessNeueSemiBold Italic';
+    src: url('/fonts/Reckless/RecklessNeue-SemiBoldItalic.ttf') format('truetype');
+    font-weight: 600;
+    font-style: italic;
+  }
+  
+  @font-face {
+    font-family: 'RecklessNeue Thin';
+    src: url('/fonts/Reckless/RecklessNeue-Thin.ttf') format('truetype');
+    font-weight: 300;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: 'RecklessNeue Thin Italic';
+    src: url('/fonts/Reckless/RecklessNeue-ThinItalic.ttf') format('truetype');
+    font-weight: 300;
+    font-style: italic;
+  }
+
+  @font-face {
+    font-family: 'CentraNo2 Black';
+    src: url('/fonts/Centra/CentraNo2-Black.ttf') format('truetype');
+    font-weight: 900;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: 'CentraNo2 Black Italic';
+    src: url('/fonts/Centra/CentraNo2-BlackItalic.ttf') format('truetype');
+    font-weight: 900;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: 'CentraNo2 Bold';
+    src: url('/fonts/Centra/CentraNo2-Bold.ttf') format('truetype');
+    font-weight: 700;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: 'CentraNo2 Book';
+    src: url('/fonts/Centra/CentraNo2-Book.ttf') format('truetype');
+    font-weight: 300;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: 'CentraNo2 Bold Italic';
+    src: url('/fonts/Centra/CentraNo2-BoldItalic.ttf') format('truetype');
+    font-weight: 700;
+    font-style: italic;
+  }
+
+  @font-face {
+    font-family: 'CentraNo2 Book Italic';
+    src: url('/fonts/Centra/CentraNo2-BookItalic.ttf') format('truetype');
+    font-weight: 300;
+    font-style: italic;
+    
+  }
+  
+  @font-face {
+    font-family: 'CentraNo2 Extrabold';
+    src: url('/fonts/Centra/CentraNo2-Extrabold.ttf') format('truetype');
+    font-weight: 800;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: 'CentraNo2 Extrabold Italic';
+    src: url('/fonts/Centra/CentraNo2-ExtraboldItalic.ttf') format('truetype');
+    font-weight: 800;
+    font-style: italic;                                                                                                                                 
+  }
+
+  @font-face {
+    font-family: 'CentraNo2 Hairline';
+    src: url('/fonts/Centra/CentraNo2-Hairline.ttf') format('truetype');
+    font-weight: 200;
+    font-style: normal;
+  }
+  
+  @font-face {
+    font-family: 'CentraNo2 Hairline Italic';
+    src: url('/fonts/Centra/CentraNo2-HairlineItalic.ttf') format('truetype');
+    font-weight: 200;
+    font-style: italic;
+  }
+
+  @font-face {
+    font-family: 'CentraNo2 Light';
+    src: url('/fonts/Centra/CentraNo2-Light.ttf') format('truetype');
+    font-weight: 300;
+    font-style: normal;
+  }
+  
+  @font-face {
+    font-family: 'CentraNo2 Light Italic';
+    src: url('/fonts/Centra/CentraNo2-LightItalic.ttf') format('truetype');
+    font-weight: 300;
+    font-style: italic;
+  }
+
+  @font-face {
+    font-family: 'CentraNo2 Medium';
+    src: url('/fonts/Centra/CentraNo2-Medium.ttf') format('truetype');
+    font-weight: 500;
+    font-style: normal;
+  }        
+  
+  @font-face {
+    font-family: 'CentraNo2 Medium Italic';
+    src: url('/fonts/Centra/CentraNo2-MediumItalic.ttf') format('truetype');
+    font-weight: 500;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: 'CentraNo2 Thin';
+    src: url('/fonts/Centra/CentraNo2-Black.ttf') format('truetype');
+    font-weight: 200;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: 'CentraNo2 Thin Italic';
+    src: url('/fonts/Centra/CentraNo2-ThinItalic.ttf') format('truetype');
+    font-weight: 200;
+    font-style: normal;
+  }
+}
