@@ -1,11 +1,11 @@
 /* empty css                                      */
-import { c as createComponent, r as renderTemplate, d as addAttribute, u as unescapeHTML, a as renderHead, b as createAstro } from '../../chunks/astro/server_DsOIsn5x.mjs';
+import { c as createComponent, r as renderTemplate, d as addAttribute, u as unescapeHTML, a as renderHead, b as createAstro } from '../../chunks/astro/server_BcvOqyrJ.mjs';
 import 'kleur/colors';
 import 'clsx';
 import { marked } from 'marked';
 import { JSDOM } from 'jsdom';
 import DOMPurify from 'dompurify';
-import { s as supabase } from '../../chunks/supabaseClient_C0l3pZOv.mjs';
+import { s as supabase } from '../../chunks/supabaseClient_f2kPkCOO.mjs';
 export { renderers } from '../../renderers.mjs';
 
 var __freeze = Object.freeze;
@@ -68,9 +68,9 @@ No content available
 </p>`} </div> <div class="border-t-2 border-grey mt-10"></div> <div class="w-[50%] mx-auto mt-10 pb-40"> <p class="font-RecklessNeueRegular text-2xl">Comments</p> <div class="pb-4 border-b-1 border-grey" id="commentsContainer"></div> </div> </article> <form id="comment-form" class="my-10 w-[50%] mx-auto"> <textarea id="commentContent" name="" id="" class="w-full p-3 bg-slate-100 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 text-gray-800" placeholder="Write comment here" required></textarea> <button type="submit" class="w-[30%] bg-black h-10 text-white text-center rounded-full font-CentraNo2-Book mt-4">
 Submit
 </button> </form> </div>` : renderTemplate`<div class="">No content</div>`);
-}, "/Users/codexjay/Downloads/newassignment/src/pages/blog/[heading].astro", void 0);
+}, "/Users/uniquee/Downloads/newassignment 2/src/pages/blog/[heading].astro", undefined);
 
-const $$file = "/Users/codexjay/Downloads/newassignment/src/pages/blog/[heading].astro";
+const $$file = "/Users/uniquee/Downloads/newassignment 2/src/pages/blog/[heading].astro";
 const $$url = "/blog/[heading]";
 
 const _page = /*#__PURE__*/Object.freeze(/*#__PURE__*/Object.defineProperty({

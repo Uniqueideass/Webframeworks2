@@ -1,5 +1,5 @@
 /* empty css                                   */
-import { c as createComponent, r as renderTemplate, a as renderHead, b as createAstro } from '../chunks/astro/server_DsOIsn5x.mjs';
+import { c as createComponent, r as renderTemplate, a as renderHead, b as createAstro } from '../chunks/astro/server_BcvOqyrJ.mjs';
 import 'kleur/colors';
 import 'clsx';
 export { renderers } from '../renderers.mjs';
@@ -12,7 +12,7 @@ const $$Astro = createAstro();
 const $$Blogpage1 = createComponent(($$result, $$props, $$slots) => {
   const Astro2 = $$result.createAstro($$Astro, $$props, $$slots);
   Astro2.self = $$Blogpage1;
-  return renderTemplate(_a || (_a = __template(['<html lang="en"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>My Astro Page</title><link rel="stylesheet" href="/styles/global.css">', `</head> <body> <nav class="flex justify-between p-8 border-b-2 border-grey"> <a href="/blog"><img src="Logo.png" alt="potential logo" class="w-8 h-8"></a> <div class="flex gap-5"> <button class="font-CentraNo2-Book"> <a href="/newpost"> New Post</a></button> <button class="font-CentraNo2-Book"><a href="/blog">Blog Posts</a></button> <button class="font-CentraNo2-Book"> <a href="/account">My Account</a> </button> </div> </nav> <div class="w-[80%] mt-20 items-center flex justify-between mx-auto"> <div> <div class="flex gap-1"> <p class="font-CentraNo2-Light text-[14px]">SET JETTING</p> <p class="font-CentraNo2-Light text-[14px]">/</p> <p class="font-CentraNo2-Light text-[14px]">THAILAND</p> </div> <div> <p class="font-RecklessNeueThin text-5xl mt-10">
+  return renderTemplate(_a || (_a = __template(['<html lang="en"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>My Astro Page</title><link rel="stylesheet" href="/styles/global.css">', `</head> <body> <nav class="flex justify-between p-8 border-b-2 border-grey"> <a href="/blog"><img src="Logo.png" alt="potential logo" class="w-8 h-8"></a> <div class="flex gap-5"> <button class="font-CentraNo2-Book"><a href="/blog">Our Blog</a></button> <button class="font-CentraNo2-Book"> <a href="/newpost"> Add New Post</a></button> <button class="font-CentraNo2-Book"> <a href="/account">My Account</a> </button> </div> </nav> <div class="w-[80%] mt-20 items-center flex justify-between mx-auto"> <div> <div class="flex gap-1"> <p class="font-CentraNo2-Light text-[14px]">SET JETTING</p> <p class="font-CentraNo2-Light text-[14px]">/</p> <p class="font-CentraNo2-Light text-[14px]">THAILAND</p> </div> <div> <p class="font-RecklessNeueThin text-5xl mt-10">
 The White Lotus effect: Thailand's turn in the spotlight
 </p> <div class="flex gap-2 mt-2"> <p class="font-CentraNo2-Light text-[12px] mt-4">
 BY IFEOMA UKANDU
@@ -82,9 +82,9 @@ Oh thailand such an incredibly beautiful country! I'd love to visit in
 Oh thailand such an incredibly beautiful country! I'd love to visit in
           no distant time :)
 </p> </div> <form action="" class="mt-10"> <textarea name="" id="" class="w-full p-3 bg-slate-100 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 text-gray-800" placeholder="Write comment here"></textarea> <button class="w-[30%] bg-black h-10 text-white text-center rounded-full font-CentraNo2-Book mt-4">Submit</button> </form> </div> <script type="module" src="/scripts/blog.js"><\/script> </body> </html>`])), renderHead());
-}, "/Users/codexjay/Downloads/newassignment/src/pages/blogpage1.astro", void 0);
+}, "/Users/uniquee/Downloads/newassignment 2/src/pages/blogpage1.astro", undefined);
 
-const $$file = "/Users/codexjay/Downloads/newassignment/src/pages/blogpage1.astro";
+const $$file = "/Users/uniquee/Downloads/newassignment 2/src/pages/blogpage1.astro";
 const $$url = "/blogpage1";
 
 const _page = /*#__PURE__*/Object.freeze(/*#__PURE__*/Object.defineProperty({

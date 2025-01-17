@@ -1,6 +1,5 @@
 import { i as isRemotePath, j as joinPaths } from './path_CVKLlyuj.mjs';
-import { A as AstroError, E as ExpectedImage, L as LocalImageUsedWrongly, f as MissingImageDimension, U as UnsupportedImageFormat, I as IncompatibleDescriptorOptions, g as UnsupportedImageConversion, h as NoImageMetadata, F as FailedToFetchRemoteImageDimensions, i as ExpectedImageOptions, j as ExpectedNotESMImage, k as InvalidImageService, t as toStyleString, c as createComponent, l as ImageMissingAlt, r as renderTemplate, m as maybeRenderHead, d as addAttribute, s as spreadAttributes, b as createAstro } from './astro/server_DsOIsn5x.mjs';
-/* empty css                           */
+import { A as AstroError, E as ExpectedImage, L as LocalImageUsedWrongly, f as MissingImageDimension, U as UnsupportedImageFormat, I as IncompatibleDescriptorOptions, g as UnsupportedImageConversion, h as NoImageMetadata, F as FailedToFetchRemoteImageDimensions, i as ExpectedImageOptions, j as ExpectedNotESMImage, k as InvalidImageService, t as toStyleString, c as createComponent, l as ImageMissingAlt, r as renderTemplate, m as maybeRenderHead, d as addAttribute, s as spreadAttributes, b as createAstro } from './astro/server_BcvOqyrJ.mjs';
 import 'clsx';
 import * as mime from 'mrmime';
 import '../renderers.mjs';
@@ -109,18 +108,22 @@ const getSizesAttribute = ({
   layout
 }) => {
   if (!width || !layout) {
-    return void 0;
+    return undefined;
   }
   switch (layout) {
+    // If screen is wider than the max size then image width is the max size,
+    // otherwise it's the width of the screen
     case `responsive`:
       return `(min-width: ${width}px) ${width}px, 100vw`;
+    // Image is always the same width, whatever the size of the screen
     case `fixed`:
       return `${width}px`;
+    // Image is always the width of the screen
     case `full-width`:
       return `100vw`;
     case "none":
     default:
-      return void 0;
+      return undefined;
   }
 };
 
@@ -205,7 +208,7 @@ const baseService = {
         message: ExpectedImage.message(
           JSON.stringify(options.src),
           typeof options.src,
-          JSON.stringify(options, (_, v) => v === void 0 ? null : v)
+          JSON.stringify(options, (_, v) => v === undefined ? null : v)
         )
       });
     }
@@ -370,16 +373,16 @@ const baseService = {
   parseURL(url) {
     const params = url.searchParams;
     if (!params.has("href")) {
-      return void 0;
+      return undefined;
     }
     const transform = {
       src: params.get("href"),
-      width: params.has("w") ? parseInt(params.get("w")) : void 0,
-      height: params.has("h") ? parseInt(params.get("h")) : void 0,
+      width: params.has("w") ? parseInt(params.get("w")) : undefined,
+      height: params.has("h") ? parseInt(params.get("h")) : undefined,
       format: params.get("f"),
       quality: params.get("q"),
       fit: params.get("fit"),
-      position: params.get("position") ?? void 0
+      position: params.get("position") ?? undefined
     };
     return transform;
   }
@@ -927,7 +930,7 @@ const unitsReg = new RegExp(
 function parseLength(len) {
   const m = unitsReg.exec(len);
   if (!m) {
-    return void 0;
+    return undefined;
   }
   return Math.round(Number(m[1]) * (units[m[2]] || 1));
 }
@@ -1168,7 +1171,7 @@ function lookup(input) {
       throw new TypeError("disabled file type: " + type);
     }
     const size = typeHandlers.get(type).calculate(input);
-    if (size !== void 0) {
+    if (size !== undefined) {
       size.type = size.type ?? type;
       return size;
     }
@@ -1242,7 +1245,7 @@ async function getConfiguredImageService() {
   if (!globalThis?.astroAsset?.imageService) {
     const { default: service } = await import(
       // @ts-expect-error
-      './sharp_CArLBRN5.mjs'
+      './sharp_CpljkW8x.mjs'
     ).catch((e) => {
       const error = new AstroError(InvalidImageService);
       error.cause = e;
@@ -1291,7 +1294,7 @@ async function getImage$1(options, imageConfig) {
     originalFormat = result.format;
     delete resolvedOptions.inferSize;
   }
-  const originalFilePath = isESMImportedImage(resolvedOptions.src) ? resolvedOptions.src.fsPath : void 0;
+  const originalFilePath = isESMImportedImage(resolvedOptions.src) ? resolvedOptions.src.fsPath : undefined;
   const clonedSrc = isESMImportedImage(resolvedOptions.src) ? (
     // @ts-expect-error - clone is a private, hidden prop
     resolvedOptions.src.clone ?? resolvedOptions.src
@@ -1372,12 +1375,12 @@ async function getImage$1(options, imageConfig) {
       values: srcSets,
       attribute: srcSets.map((srcSet) => `${srcSet.url} ${srcSet.descriptor}`).join(", ")
     },
-    attributes: service.getHTMLAttributes !== void 0 ? await service.getHTMLAttributes(validatedOptions, imageConfig) : {}
+    attributes: service.getHTMLAttributes !== undefined ? await service.getHTMLAttributes(validatedOptions, imageConfig) : {}
   };
 }
 
 function addCSSVarsToStyle(vars, styles) {
-  const cssVars = Object.entries(vars).filter(([_, value]) => value !== void 0 && value !== false).map(([key, value]) => `--${key}: ${value};`).join(" ");
+  const cssVars = Object.entries(vars).filter(([_, value]) => value !== undefined && value !== false).map(([key, value]) => `--${key}: ${value};`).join(" ");
   if (!styles) {
     return cssVars;
   }
@@ -1410,7 +1413,7 @@ const $$Image = createComponent(async ($$result, $$props, $$slots) => {
   const Astro2 = $$result.createAstro($$Astro$1, $$props, $$slots);
   Astro2.self = $$Image;
   const props = Astro2.props;
-  if (props.alt === void 0 || props.alt === null) {
+  if (props.alt === undefined || props.alt === null) {
     throw new AstroError(ImageMissingAlt);
   }
   if (typeof props.width === "string") {
@@ -1438,7 +1441,7 @@ const $$Image = createComponent(async ($$result, $$props, $$slots) => {
     additionalAttributes
   }) : { ...additionalAttributes, ...image.attributes };
   return renderTemplate`${maybeRenderHead()}<img${addAttribute(image.src, "src")}${spreadAttributes(attributes)}${addAttribute(className, "class")}>`;
-}, "/Users/codexjay/Downloads/newassignment/node_modules/astro/components/Image.astro", void 0);
+}, "/Users/uniquee/Downloads/newassignment 2/node_modules/astro/components/Image.astro", undefined);
 
 const $$Astro = createAstro();
 const $$Picture = createComponent(async ($$result, $$props, $$slots) => {
@@ -1448,7 +1451,7 @@ const $$Picture = createComponent(async ($$result, $$props, $$slots) => {
   const defaultFallbackFormat = "png";
   const specialFormatsFallback = ["gif", "svg", "jpg", "jpeg"];
   const { formats = defaultFormats, pictureAttributes = {}, fallbackFormat, ...props } = Astro2.props;
-  if (props.alt === void 0 || props.alt === null) {
+  if (props.alt === undefined || props.alt === null) {
     throw new AstroError(ImageMissingAlt);
   }
   const scopedStyleClass = props.class?.match(/\bastro-\w{8}\b/)?.[0];
@@ -1511,7 +1514,7 @@ const $$Picture = createComponent(async ($$result, $$props, $$slots) => {
     const srcsetAttribute = props.densities || !props.densities && !props.widths && !useResponsive ? `${image.src}${image.srcSet.values.length > 0 ? ", " + image.srcSet.attribute : ""}` : image.srcSet.attribute;
     return renderTemplate`<source${addAttribute(srcsetAttribute, "srcset")}${addAttribute(mime.lookup(image.options.format ?? image.src) ?? `image/${image.options.format}`, "type")}${spreadAttributes(sourceAdditionalAttributes)}>`;
   })}  <img${addAttribute(fallbackImage.src, "src")}${spreadAttributes(attributes)}${addAttribute(className, "class")}> </picture>`;
-}, "/Users/codexjay/Downloads/newassignment/node_modules/astro/components/Picture.astro", void 0);
+}, "/Users/uniquee/Downloads/newassignment 2/node_modules/astro/components/Picture.astro", undefined);
 
 const imageConfig = {"endpoint":{"route":"/_image"},"service":{"entrypoint":"astro/assets/services/sharp","config":{}},"domains":[],"remotePatterns":[],"experimentalResponsiveImages":false};
 					const getImage = async (options) => await getImage$1(options, imageConfig);
@@ -1552,7 +1555,7 @@ async function loadRemoteImage(src, headers) {
     }
     return await res.arrayBuffer();
   } catch {
-    return void 0;
+    return undefined;
   }
 }
 const GET = async ({ request }) => {

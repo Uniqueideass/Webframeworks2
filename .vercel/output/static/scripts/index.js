@@ -143,6 +143,7 @@ if (document.getElementById("account")) {
         });
 
         const result = await response.json();
+         console.log(result)
 
         if (response.ok) {
           alert("Account deleted successfully!");

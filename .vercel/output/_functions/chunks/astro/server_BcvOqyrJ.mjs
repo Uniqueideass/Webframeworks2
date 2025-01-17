@@ -4,7 +4,7 @@ import { escape } from 'html-escaper';
 import { decodeBase64, decodeHex, encodeHexUpperCase, encodeBase64 } from '@oslojs/encoding';
 import 'cssesc';
 
-const ASTRO_VERSION = "5.1.1";
+const ASTRO_VERSION = "5.1.7";
 const REROUTE_DIRECTIVE_HEADER = "X-Astro-Reroute";
 const REWRITE_DIRECTIVE_HEADER_KEY = "X-Astro-Rewrite";
 const REWRITE_DIRECTIVE_HEADER_VALUE = "yes";
@@ -235,13 +235,13 @@ const AstroResponseHeadersReassigned = {
 const SessionStorageInitError = {
   name: "SessionStorageInitError",
   title: "Session storage could not be initialized.",
-  message: (error, driver) => `Error when initializing session storage${driver ? ` with driver ${driver}` : ""}. ${error ?? ""}`,
+  message: (error, driver) => `Error when initializing session storage${driver ? ` with driver \`${driver}\`` : ""}. \`${error ?? ""}\``,
   hint: "For more information, see https://docs.astro.build/en/reference/experimental-flags/sessions/"
 };
 const SessionStorageSaveError = {
   name: "SessionStorageSaveError",
   title: "Session data could not be saved.",
-  message: (error, driver) => `Error when saving session data${driver ? ` with driver ${driver}` : ""}. ${error ?? ""}`,
+  message: (error, driver) => `Error when saving session data${driver ? ` with driver \`${driver}\`` : ""}. \`${error ?? ""}\``,
   hint: "For more information, see https://docs.astro.build/en/reference/experimental-flags/sessions/"
 };
 const LocalImageUsedWrongly = {
@@ -294,7 +294,7 @@ function normalizeLF(code) {
 }
 
 function codeFrame(src, loc) {
-  if (!loc || loc.line === void 0 || loc.column === void 0) {
+  if (!loc || loc.line === undefined || loc.column === undefined) {
     return "";
   }
   const lines = normalizeLF(src).split("\n").map((ln) => ln.replace(/\t/g, "  "));
@@ -371,7 +371,7 @@ async function renderEndpoint(mod, context, isPrerendered, logger) {
       )} requests are not available in static endpoints. Mark this page as server-rendered (\`export const prerender = false;\`) or update your config to \`output: 'server'\` to make all your pages server-rendered by default.`
     );
   }
-  if (handler === void 0) {
+  if (handler === undefined) {
     logger.warn(
       "router",
       `No API Route handler exists for the method "${method}" for the route "${url.pathname}".
@@ -466,7 +466,7 @@ function createAstro(site) {
   return {
     // TODO: this is no longer necessary for `Astro.site`
     // but it somehow allows working around caching issues in content collections for some tests
-    site: void 0,
+    site: undefined,
     generator: `Astro v${ASTRO_VERSION}`,
     glob: createAstroGlobFn()
   };
@@ -658,7 +658,7 @@ function convertToSerializedForm(value, metadata = {}, parents = /* @__PURE__ */
       if (value === -Infinity) {
         return [PROP_TYPE.Infinity, -1];
       }
-      if (value === void 0) {
+      if (value === undefined) {
         return [PROP_TYPE.Value];
       }
       return [PROP_TYPE.Value, value];
@@ -706,6 +706,8 @@ function extractDirectives(inputProps, clientDirectives) {
           extracted.hydration.componentExport.value = value;
           break;
         }
+        // This is a special prop added to prove that the client hydration method
+        // was added statically.
         case "client:component-hydration": {
           break;
         }
@@ -1088,7 +1090,7 @@ class RenderTemplateResult {
   error;
   constructor(htmlParts, expressions) {
     this.htmlParts = htmlParts;
-    this.error = void 0;
+    this.error = undefined;
     this.expressions = expressions.map((expression) => {
       if (isPromise(expression)) {
         return Promise.resolve(expression).catch((err) => {
@@ -1342,7 +1344,7 @@ class AstroComponentInstance {
     }
   }
   async init(result) {
-    if (this.returnValue !== void 0) return this.returnValue;
+    if (this.returnValue !== undefined) return this.returnValue;
     this.returnValue = this.factory(result, this.props, this.slotValues);
     if (isPromise(this.returnValue)) {
       this.returnValue.then((resolved) => {
@@ -1528,7 +1530,7 @@ async function renderToAsyncIterable(result, componentFactory, props, children, 
   let renderingComplete = false;
   const iterator = {
     async next() {
-      if (result.cancelled) return { done: true, value: void 0 };
+      if (result.cancelled) return { done: true, value: undefined };
       if (next !== null) {
         await next.promise;
       } else if (!renderingComplete && !buffer.length) {
@@ -1563,7 +1565,7 @@ async function renderToAsyncIterable(result, componentFactory, props, children, 
     },
     async return() {
       result.cancelled = true;
-      return { done: true, value: void 0 };
+      return { done: true, value: undefined };
     }
   };
   const destination = {
@@ -1708,7 +1710,7 @@ function renderServerIsland(result, _displayName, props, slots) {
         }
       }
       const key = await result.key;
-      const propsEncrypted = await encryptString(key, JSON.stringify(props));
+      const propsEncrypted = Object.keys(props).length === 0 ? "" : await encryptString(key, JSON.stringify(props));
       const hostId = crypto.randomUUID();
       const slash = result.base.endsWith("/") ? "" : "/";
       let serverIslandUrl = `${result.base}${slash}_server-islands/${componentId}${result.trailingSlash === "always" ? "/" : ""}`;
@@ -1746,7 +1748,10 @@ let response = await fetch('${serverIslandUrl}', {
 `
       )}
 if (script) {
-	if(response.status === 200 && response.headers.get('content-type') === 'text/html') {
+	if(
+		response.status === 200 
+		&& response.headers.has('content-type') 
+		&& response.headers.get('content-type').split(";")[0].trim() === 'text/html') {
 		let html = await response.text();
 	
 		// Swap!
@@ -1780,7 +1785,7 @@ function guessRenderers(componentUrl) {
     case "jsx":
     case "tsx":
       return ["@astrojs/react", "@astrojs/preact", "@astrojs/solid-js", "@astrojs/vue (jsx)"];
-    case void 0:
+    case undefined:
     default:
       return [
         "@astrojs/react",
@@ -1820,7 +1825,7 @@ Did you forget to import the component or is it possible there is a typo?`
     clientDirectives
   );
   let html = "";
-  let attrs = void 0;
+  let attrs = undefined;
   if (hydration) {
     metadata.hydrate = hydration.directive;
     metadata.hydrateArgs = hydration.value;
@@ -2126,7 +2131,7 @@ async function renderComponent(result, displayName, Component, props, slots = {}
   }
 }
 function normalizeProps(props) {
-  if (props["class:list"] !== void 0) {
+  if (props["class:list"] !== undefined) {
     const value = props["class:list"];
     delete props["class:list"];
     props["class"] = clsx(props["class"], value);

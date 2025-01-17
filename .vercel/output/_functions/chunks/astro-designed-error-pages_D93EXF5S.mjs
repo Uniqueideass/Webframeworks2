@@ -1,4 +1,4 @@
-import { N as NOOP_MIDDLEWARE_HEADER, D as DEFAULT_404_COMPONENT } from './astro/server_DsOIsn5x.mjs';
+import { N as NOOP_MIDDLEWARE_HEADER, D as DEFAULT_404_COMPONENT } from './astro/server_BcvOqyrJ.mjs';
 import { parse } from 'devalue';
 import { escape } from 'html-escaper';
 
@@ -106,7 +106,7 @@ function deserializeActionResult(res) {
       json = JSON.parse(res.body);
     } catch {
       return {
-        data: void 0,
+        data: undefined,
         error: new ActionError({
           message: res.body,
           code: "INTERNAL_SERVER_ERROR"
@@ -114,24 +114,24 @@ function deserializeActionResult(res) {
       };
     }
     if (Object.assign(__vite_import_meta_env__, { _: process.env._ })?.PROD) {
-      return { error: ActionError.fromJson(json), data: void 0 };
+      return { error: ActionError.fromJson(json), data: undefined };
     } else {
       const error = ActionError.fromJson(json);
       error.stack = actionResultErrorStack.get();
       return {
         error,
-        data: void 0
+        data: undefined
       };
     }
   }
   if (res.type === "empty") {
-    return { data: void 0, error: void 0 };
+    return { data: undefined, error: undefined };
   }
   return {
     data: parse(res.body, {
       URL: (href) => new URL(href)
     }),
-    error: void 0
+    error: undefined
   };
 }
 const actionResultErrorStack = /* @__PURE__ */ function actionResultErrorStackFn() {
