@@ -1,9 +1,11 @@
-import { supabase } from "../utils/supabaseClient";
+import { getUser, supabase } from "../utils/supabaseClient";
 
 
 // SIGN-UP
 
 const signupForm = document.getElementById("signup-form");
+
+const user = getUser()
 
 if (signupForm) {
   signupForm.addEventListener("submit", async (e) => {
