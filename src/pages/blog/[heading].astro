@@ -2,7 +2,7 @@
 import { marked } from "marked";
 import { JSDOM } from "jsdom";
 import DOMPurify from "dompurify";
-import { supabase } from "../../utils/supabaseClient";
+import { supabase } from "utils/supabaseClient";
 
 const dom = new JSDOM("");
 const window = dom.window;
@@ -84,7 +84,7 @@ const sanitizedHtml = purify.sanitize(rawHtml);
               <button class="font-CentraNo2-Book">
                 <a href="/newpost">New Post</a>
               </button>
-          
+
               <button class="font-CentraNo2-Book">
                 <a href="/account">My Account</a>
               </button>
@@ -198,6 +198,6 @@ const sanitizedHtml = purify.sanitize(rawHtml);
       )
     }
 
-    <script src="../../scripts/blog.js"></script>
+    <script src="scripts/blog.js"></script>
   </body>
 </html>

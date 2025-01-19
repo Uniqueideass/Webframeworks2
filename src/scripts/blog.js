@@ -1,4 +1,4 @@
-import { getUser, supabase } from "../utils/supabaseClient";
+import { getUser, supabase } from "utils/supabaseClient";
 
 const postForm = document.getElementById("post-form");
 

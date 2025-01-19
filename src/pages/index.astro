@@ -1,5 +1,7 @@
 ---
+import { getUser } from "utils/supabaseClient"
 
+const user = await getUser()
 ---
 
 <!doctype html>
@@ -70,6 +72,6 @@
       </div>
     </div>
 
-    <script src="../scripts/index.js"></script>
+    <script src="scripts/index.js"></script>
   </body>
 </html>

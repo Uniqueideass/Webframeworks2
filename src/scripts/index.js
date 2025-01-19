@@ -1,4 +1,5 @@
-import { getUser, supabase } from "../utils/supabaseClient";
+import { getUser, supabase } from "utils/supabaseClient";
+
 
 
 // SIGN-UP
