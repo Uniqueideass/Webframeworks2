@@ -1,19 +1,4 @@
-import { supabase } from "../../src/lib/supabaseClient";
-
-export async function getUser() {
-  try {
-    const { data, error } = await supabase.auth.getUser();
-
-    if (error) {
-      console.error("Error retrieving user session:", error.message);
-      return null;
-    }
-    return data.user;
-  } catch (err) {
-    console.error("Error retrieving session:", err.message);
-    return null;
-  }
-}
+import { getUser, supabase } from "../utils/supabaseClient";
 
 const postForm = document.getElementById("post-form");
 
@@ -77,7 +62,7 @@ export async function fetchBlogs() {
     const { data, error } = await supabase
       .from("blogs")
       .select("*")
-      .order("created_at", { ascending: false });
+      .order("created_at", { ascending: false }).limit(5);
 
     if (error) throw error;
     console.log(data);
@@ -307,6 +292,20 @@ if (updateForm) {
 
   updateForm.addEventListener("submit", async (e) => {
     e.preventDefault();
+    let heroImageUrl;
+
+    const { data: imgData, error: uploadError } = await supabase.storage
+      .from("blog-images")
+      .upload(imagePath, fields.hero_image.files[0]);
+
+    if (uploadError) {
+      console.error("Error uploading image:", uploadError.message);
+      return;
+    }
+
+    heroImageUrl = supabase.storage.from("blog-images").getPublicUrl(imagePath)
+      .data.publicUrl;
+
 
     const { data, error } = await supabase
       .from("blogs")
@@ -314,7 +313,7 @@ if (updateForm) {
         heading: fields.heading.value,
         body: fields.body.value,
         tags: fields.tags.value.split(",").map((tag) => tag.trim()),
-        hero_image: fields.hero_image.value,
+        hero_image: heroImageUrl,
       })
       .eq("id", updatedBlogId);
 
