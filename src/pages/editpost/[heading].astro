@@ -1,7 +1,5 @@
 ---
-
-import { supabase } from "../../lib/supabaseClient";
-
+import { supabase } from "../../utils/supabaseClient";
 
 export async function getStaticPaths() {
   try {
@@ -135,7 +133,6 @@ const blog = await getBlogData(heading);
             id="update-post-image"
             accept="image/*"
             class="w-full my-3 p-3 bg-slate-100 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 text-gray-800"
-            placeholder="paste image url"
             value={blog.hero_image}
             required
           /></label
@@ -154,6 +151,6 @@ const blog = await getBlogData(heading);
       </div>
     </form>
 
-    <script type="module" src="/scripts/blog.js" is:inline></script>
+    <script src="../../scripts/blog.js"></script>
   </body>
 </html>

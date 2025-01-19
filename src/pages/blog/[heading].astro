@@ -2,7 +2,7 @@
 import { marked } from "marked";
 import { JSDOM } from "jsdom";
 import DOMPurify from "dompurify";
-import { supabase } from "../../lib/supabaseClient";
+import { supabase } from "../../utils/supabaseClient";
 
 const dom = new JSDOM("");
 const window = dom.window;
@@ -198,6 +198,6 @@ const sanitizedHtml = purify.sanitize(rawHtml);
       )
     }
 
-    <script type="module" src="/scripts/blog.js" is:inline></script>
+    <script src="../../scripts/blog.js"></script>
   </body>
 </html>
