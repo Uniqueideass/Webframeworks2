@@ -6,6 +6,7 @@ import { getUser, supabase } from "../utils/supabaseClient";
 const signupForm = document.getElementById("signup-form");
 
 const user = getUser()
+console.log(user)
 
 if (signupForm) {
   signupForm.addEventListener("submit", async (e) => {
